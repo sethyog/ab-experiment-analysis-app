@@ -1,0 +1,7 @@
+Flask
+langchain
+boto3
+pandas
+numpy
+scikit-learn
+flask-cors

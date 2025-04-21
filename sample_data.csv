@@ -1,0 +1,11 @@
+metric,control,treatment,difference,p_value
+conversion_rate,0.12,0.15,0.03,0.04
+average_order_value,45.5,48.2,2.7,0.03
+bounce_rate,0.35,0.32,-0.03,0.06
+time_on_site,120.5,135.2,14.7,0.02
+add_to_cart_rate,0.25,0.28,0.03,0.07
+checkout_completion_rate,0.65,0.72,0.07,0.01
+new_user_percentage,0.45,0.42,-0.03,0.09
+returning_user_percentage,0.55,0.58,0.03,0.09
+mobile_user_percentage,0.65,0.68,0.03,0.12
+desktop_user_percentage,0.35,0.32,-0.03,0.12

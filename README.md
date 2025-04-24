@@ -82,7 +82,9 @@ Before running the application, make sure you have AWS credentials configured:
    python src/app.py
    ```
 
-5. Access the web interface at `http://localhost:5000`.
+5. Access the web interface at `http://localhost:5000`.touch src/__init__.py
+touch src/services/__init__.py
+
 
 ## Running on an EC2 Instance
 
@@ -98,6 +100,7 @@ To run this application on an EC2 instance:
    ```
    cd ab-experiment-analysis-app
    gunicorn -w 4 -b 0.0.0.0:5000 src.app:app
+   
    ```
 
 5. Access the application using your EC2 instance's public IP or domain name: `http://your-ec2-ip:5000`.

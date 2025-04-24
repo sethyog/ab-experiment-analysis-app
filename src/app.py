@@ -1,10 +1,10 @@
 from flask import Flask, request, render_template, flash
 import os
 import traceback
-from services.aws_bedrock import AWSBedrockService
-from services.prompt_builder import PromptBuilder
-from services.summary_generator import SummaryGenerator
-from utils.file_handler import FileHandler
+from src.services.aws_bedrock import AWSBedrockService
+from src.services.prompt_builder import PromptBuilder
+from src.services.summary_generator import SummaryGenerator
+from src.utils.file_handler import FileHandler
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # For flash messages
@@ -42,10 +42,13 @@ def index():
             file_handler.validate_csv_content(data_df)
             
             # Build the prompt
+            #print(f"Building prompt with instructions: {instructions}")
             prompt = prompt_builder.build_prompt(instructions, data_df)
+            #print(f"Prompt: {prompt}")
             
             # Get response from AWS Bedrock
             bedrock_service = AWSBedrockService(model_id=model_name)
+            #print(f'Input data: {data_df}')
             model_response = bedrock_service.get_model_response(prompt)
             
             # Generate summary

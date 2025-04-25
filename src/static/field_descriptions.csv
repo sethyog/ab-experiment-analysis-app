@@ -1,13 +1,90 @@
-field_name,description
-metric,The name of the metric being measured in the experiment
-control,The value of the metric in the control group (baseline)
-treatment,The value of the metric in the treatment group (variant being tested)
-difference,The absolute difference between the treatment and control values
-p_value,The probability that the observed difference occurred by chance (lower values indicate higher statistical significance)
-conversion_rate,The percentage of users who completed a desired action (e.g., made a purchase)
-average_order_value,The average monetary value of orders placed by users
-bounce_rate,The percentage of users who navigate away from the site after viewing only one page
-click_through_rate,The percentage of users who clicked on a specific element
-time_on_page,The average time users spent on a page in seconds
-revenue_per_user,The average revenue generated per user
-retention_rate,The percentage of users who return to the site within a specified time period
+Column,Description
+treatment_allocations,The assignment of experiment units to treatment groups.
+metric_name,The name of the measured metric being analyzed.
+dimensions_string,Dimension breakdowns or segment information for the metric.
+treatment_allocations_p_value,P-value testing the balance of allocations across groups.
+treatment_name_a,Name or label of Treatment A group.
+treatment_name_b,Name or label of Treatment B group.
+metric_sum_a,Total sum of the metric for group A.
+metric_sum_b,Total sum of the metric for group B.
+metric_count_a,Number of observations in group A.
+metric_count_b,Number of observations in group B.
+metric_sample_mean_a,Mean value of the metric for group A.
+metric_sample_mean_b,Mean value of the metric for group B.
+metric_sample_variance_a,Sample variance of the metric in group A.
+metric_sample_variance_b,Sample variance of the metric in group B.
+metric_base_mean_a,Baseline mean value of the metric for group A.
+metric_base_mean_b,Baseline mean value of the metric for group B.
+metric_p_value,P-value for the difference in the metric between groups A and B.
+overall_percent_impact,Percent change in the metric from A to B.
+overall_percent_ci_lower,Lower bound of the confidence interval for percent impact.
+overall_percent_ci_upper,Upper bound of the confidence interval for percent impact.
+overall_annualized_impact,Annualized version of the overall percent impact estimate.
+overall_annualized_ci_lower,Lower bound of the annualized impact confidence interval.
+overall_annualized_ci_upper,Upper bound of the annualized impact confidence interval.
+overall_absolute_impact,Absolute difference in metric between treatment groups.
+overall_absolute_ci_lower,Lower bound of the confidence interval for absolute impact.
+overall_absolute_ci_upper,Upper bound of the confidence interval for absolute impact.
+overall_posterior_mean,Posterior mean estimate for overall impact.
+overall_posterior_sd,Standard deviation of the posterior distribution for overall impact.
+overall_data_weight,Relative weight of the data in the posterior estimation.
+overall_posterior_probability_positive,Probability that the impact is positive under the posterior distribution.
+overall_posterior_percent_impact,Posterior estimate of percent impact.
+overall_posterior_percent_ci_lower,Lower bound of posterior percent impact confidence interval.
+overall_posterior_percent_ci_upper,Upper bound of posterior percent impact confidence interval.
+overall_posterior_annualized_impact,Annualized posterior estimate of impact.
+overall_posterior_annualized_ci_lower,Lower bound of the posterior annualized impact confidence interval.
+overall_posterior_annualized_ci_upper,Upper bound of the posterior annualized impact confidence interval.
+overall_posterior_absolute_impact,Posterior estimate of absolute impact.
+overall_posterior_absolute_ci_lower,Lower bound of posterior absolute impact confidence interval.
+overall_posterior_absolute_ci_upper,Upper bound of posterior absolute impact confidence interval.
+metric_indicator_count_a,Number of active customers (with non-zero values) in group A for the metric.
+metric_indicator_count_b,Number of active customers (with non-zero values) in group B for the metric.
+metric_indicator_mean_a,Mean metric value among active customers in group A.
+metric_indicator_mean_b,Mean metric value among active customers in group B.
+metric_indicator_base_mean_a,Baseline mean among active customers in group A before the experiment.
+metric_indicator_base_mean_b,Baseline mean among active customers in group B before the experiment.
+metric_indicator_p_value,P-value for difference in mean metric among active customers across groups.
+indicator_percent_impact,Percent change in metric among active customers from group A to B.
+indicator_percent_ci_lower,Lower bound of confidence interval for percent impact among active customers.
+indicator_percent_ci_upper,Upper bound of confidence interval for percent impact among active customers.
+indicator_annualized_impact,Annualized version of percent impact among active customers.
+indicator_annualized_ci_lower,Lower bound of annualized impact confidence interval for active customers.
+indicator_annualized_ci_upper,Upper bound of annualized impact confidence interval for active customers.
+indicator_absolute_impact,Absolute change in metric value among active customers between groups.
+indicator_absolute_ci_lower,Lower bound of the confidence interval for absolute impact among active customers.
+indicator_absolute_ci_upper,Upper bound of the confidence interval for absolute impact among active customers.
+indicator_posterior_mean,Posterior mean impact among active customers.
+indicator_posterior_sd,Posterior standard deviation for the impact among active customers.
+indicator_data_weight,Weight of observed data in posterior estimation for active customers.
+indicator_posterior_probability_positive,Posterior probability that the impact among active customers is positive.
+indicator_posterior_percent_impact,Posterior percent impact estimate for active customers.
+indicator_posterior_percent_ci_lower,Lower bound of posterior percent impact confidence interval for active customers.
+indicator_posterior_percent_ci_upper,Upper bound of posterior percent impact confidence interval for active customers.
+indicator_posterior_annualized_impact,Annualized posterior percent impact among active customers.
+indicator_posterior_annualized_ci_lower,Lower bound of the posterior annualized impact for active customers.
+indicator_posterior_annualized_ci_upper,Upper bound of the posterior annualized impact for active customers.
+indicator_posterior_absolute_impact,Posterior absolute impact estimate among active customers.
+indicator_posterior_absolute_ci_lower,Lower bound of posterior absolute impact confidence interval for active customers.
+indicator_posterior_absolute_ci_upper,Upper bound of posterior absolute impact confidence interval for active customers.
+is_directional,Boolean flag indicating if results are directional (not statistically significant but trending).
+is_statistically_significant,Boolean flag indicating whether the metric impact is statistically significant.
+is_data_quality_flagged,Boolean indicating if the metric has known data quality issues.
+is_insufficient_sample_size,Boolean indicating whether the sample size is too small for reliable inference.
+treatment_b_vs_a_diff_metric_sample_mean,Raw difference in sample means of the metric between group B and A.
+treatment_b_vs_a_diff_metric_indicator_mean,Raw difference in indicator means (among active customers) between B and A.
+treatment_b_vs_a_diff_metric_base_mean,Raw difference in baseline means of the metric between B and A.
+treatment_b_vs_a_diff_metric_indicator_base_mean,Raw difference in baseline indicator means between B and A.
+impact_direction,"Direction of the effect (e.g. 'positive', 'negative', or 'neutral')."
+metric_is_ratio,"Boolean flag for whether the metric is a ratio metric (e.g., conversions per visit)."
+metric_ratio_denominator_metric_name,Name of the denominator metric if this metric is a ratio.
+metric_display_name,User-friendly display name for the metric.
+metric_display_name_short,Abbreviated or simplified version of the metric display name.
+metric_unit,"Unit of measurement for the metric (e.g., dollars, seconds, clicks)."
+metric_description,Detailed textual description of what the metric represents.
+metric_owner,Team or individual responsible for maintaining or interpreting the metric.
+metric_category,"Group or classification the metric belongs to (e.g., engagement, revenue)."
+metric_is_inverted,"Boolean indicating if lower values are better (i.e., metric is 'inverted')."
+metric_type,"Type of metric (e.g., sum, mean, ratio, indicator)."
+metric_is_team_specific,Boolean indicating if the metric is specific to a team or domain.
+metric_is_cumulative,Boolean indicating whether the metric is cumulative over time.

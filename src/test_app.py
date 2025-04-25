@@ -1,13 +1,14 @@
 import unittest
 import os
 import pandas as pd
+import json
 from io import StringIO
 from unittest.mock import Mock, patch
-from app import app
-from services.prompt_builder import PromptBuilder
-from services.summary_generator import SummaryGenerator
-from utils.file_handler import FileHandler
-from services.aws_bedrock import AWSBedrockService
+from src.app import app
+from src.services.prompt_builder import PromptBuilder
+from src.services.summary_generator import SummaryGenerator
+from src.utils.file_handler import FileHandler
+from src.services.aws_bedrock import AWSBedrockService
 
 class TestApp(unittest.TestCase):
     def setUp(self):
@@ -134,12 +135,24 @@ bounce_rate,0.35,0.32,-0.03,0.06
     def test_prompt_builder(self):
         prompt_builder = PromptBuilder()
         df = pd.read_csv(StringIO(self.test_csv_data))
-        prompt = prompt_builder.build_prompt("Focus on conversion rate", df)
         
+        # Test without field descriptions
+        prompt = prompt_builder.build_prompt("Focus on conversion rate", df)
         self.assertIn("Focus on conversion rate", prompt)
         self.assertIn("conversion_rate", prompt)
         self.assertIn("0.12", prompt)
         self.assertIn("0.15", prompt)
+        self.assertNotIn("## FIELD DESCRIPTIONS:", prompt)
+        
+        # Test with field descriptions
+        field_descriptions = {
+            "conversion_rate": "The percentage of users who completed a desired action",
+            "p_value": "The probability that the observed difference occurred by chance"
+        }
+        prompt_with_desc = prompt_builder.build_prompt("Focus on conversion rate", df, field_descriptions)
+        self.assertIn("## FIELD DESCRIPTIONS:", prompt_with_desc)
+        self.assertIn("conversion_rate: The percentage of users who completed a desired action", prompt_with_desc)
+        self.assertIn("p_value: The probability that the observed difference occurred by chance", prompt_with_desc)
     
     def test_summary_generator(self):
         summary_generator = SummaryGenerator()
@@ -180,6 +193,34 @@ bounce_rate,0.35,0.32,-0.03,0.06
         self.assertEqual(len(df.columns), 5)
         
         self.assertTrue(file_handler.validate_csv_content(df))
+        
+        # Test field descriptions functionality
+        # Create a temporary descriptions file for testing
+        import tempfile
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as temp_file:
+            temp_file.write("field_name,description\n")
+            temp_file.write("conversion_rate,The percentage of users who completed a desired action\n")
+            temp_file.write("p_value,The probability that the observed difference occurred by chance\n")
+            temp_path = temp_file.name
+            
+        try:
+            # Initialize FileHandler with the temporary descriptions file
+            file_handler_with_desc = FileHandler(upload_folder='test_uploads', descriptions_path=temp_path)
+            
+            # Test get_field_descriptions method
+            descriptions = file_handler_with_desc.get_field_descriptions(df)
+            self.assertIn('conversion_rate', descriptions)
+            self.assertEqual(descriptions['conversion_rate'], 'The percentage of users who completed a desired action')
+            self.assertIn('p_value', descriptions)
+            self.assertEqual(descriptions['p_value'], 'The probability that the observed difference occurred by chance')
+        finally:
+            # Clean up the temporary file
+            import os
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
 
 if __name__ == '__main__':
     unittest.main()
+
+
+

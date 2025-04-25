@@ -5,19 +5,27 @@ class PromptBuilder:
     def __init__(self):
         pass
         
-    def build_prompt(self, instructions, data_df):
+    def build_prompt(self, instructions, data_df, field_descriptions=None):
         """
-        Build a prompt for the GenAI model based on the statistical data and user instructions
+        Build a prompt for the GenAI model based on the statistical data, field descriptions, and user instructions
         
         Args:
             instructions (str): User instructions for interpreting the data
             data_df (pandas.DataFrame): DataFrame containing the A/B experiment statistical data
+            field_descriptions (dict, optional): Dictionary mapping field names to their descriptions
             
         Returns:
             str: A formatted prompt for the GenAI model
         """
         # Convert DataFrame to a more readable format
         data_str = self._format_dataframe(data_df)
+        
+        # Format field descriptions if provided
+        descriptions_str = ""
+        if field_descriptions and len(field_descriptions) > 0:
+            descriptions_str = "## FIELD DESCRIPTIONS:\n"
+            for field, description in field_descriptions.items():
+                descriptions_str += f"- {field}: {description}\n"
         
         # Build the prompt with clear instructions for the model
         prompt = f"""
@@ -27,6 +35,7 @@ Your task is to analyze the following statistical output from an A/B experiment 
 ## STATISTICAL DATA:
 {data_str}
 
+{descriptions_str}
 ## USER INSTRUCTIONS:
 {instructions}
 
@@ -54,6 +63,7 @@ Please provide your analysis in the following JSON structure:
 ```
 
 Ensure your analysis is data-driven, statistically sound, and provides clear business recommendations.
+Use the field descriptions to provide more context and accurate interpretations of the metrics.
 """
         return prompt
         
@@ -159,3 +169,4 @@ Ensure your analysis is data-driven, statistically sound, and provides clear bus
             
         result += "Significance levels: * p<0.05, ** p<0.01, *** p<0.001"
         return result
+

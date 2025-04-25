@@ -1,0 +1,13 @@
+field_name,description
+metric,The name of the metric being measured in the experiment
+control,The value of the metric in the control group (baseline)
+treatment,The value of the metric in the treatment group (variant being tested)
+difference,The absolute difference between the treatment and control values
+p_value,The probability that the observed difference occurred by chance (lower values indicate higher statistical significance)
+conversion_rate,The percentage of users who completed a desired action (e.g., made a purchase)
+average_order_value,The average monetary value of orders placed by users
+bounce_rate,The percentage of users who navigate away from the site after viewing only one page
+click_through_rate,The percentage of users who clicked on a specific element
+time_on_page,The average time users spent on a page in seconds
+revenue_per_user,The average revenue generated per user
+retention_rate,The percentage of users who return to the site within a specified time period

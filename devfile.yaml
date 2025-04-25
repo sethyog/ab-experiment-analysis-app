@@ -1,0 +1,18 @@
+schemaVersion: 2.0.0
+components:
+  - name: dev
+    container:
+      image: public.ecr.aws/aws-mde/universal-image:latest
+commands:
+  - id: install
+    exec:
+      component: dev
+      commandLine: "pip install -r requirements.txt"
+  - id: build
+    exec:
+      component: dev
+      commandLine: "echo 'Building application...' && python -m compileall src/"
+  - id: test
+    exec:
+      component: dev
+      commandLine: "cd /workspace && python -m unittest src/test_app.py"

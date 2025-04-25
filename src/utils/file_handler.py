@@ -3,14 +3,17 @@ import pandas as pd
 from werkzeug.utils import secure_filename
 
 class FileHandler:
-    def __init__(self, upload_folder='uploads'):
+    def __init__(self, upload_folder='uploads', descriptions_path='src/static/field_descriptions.csv'):
         """
-        Initialize the FileHandler with the upload folder path
+        Initialize the FileHandler with the upload folder path and descriptions file path
         
         Args:
             upload_folder (str): Path to the folder where uploaded files will be stored
+            descriptions_path (str): Path to the CSV file containing field descriptions
         """
         self.upload_folder = upload_folder
+        self.descriptions_path = descriptions_path
+        self.field_descriptions = self._load_field_descriptions()
         self._ensure_upload_folder_exists()
         
     def _ensure_upload_folder_exists(self):
@@ -19,6 +22,24 @@ class FileHandler:
         """
         if not os.path.exists(self.upload_folder):
             os.makedirs(self.upload_folder)
+            
+    def _load_field_descriptions(self):
+        """
+        Load field descriptions from the CSV file
+        
+        Returns:
+            dict: A dictionary mapping field names to their descriptions
+        """
+        try:
+            if os.path.exists(self.descriptions_path):
+                df = pd.read_csv(self.descriptions_path)
+                return dict(zip(df['field_name'], df['description']))
+            else:
+                print(f"Warning: Field descriptions file not found at {self.descriptions_path}")
+                return {}
+        except Exception as e:
+            print(f"Error loading field descriptions: {str(e)}")
+            return {}
             
     def save_file(self, file):
         """
@@ -71,6 +92,29 @@ class FileHandler:
         except Exception as e:
             raise ValueError(f"Error reading CSV file: {str(e)}")
             
+    def get_field_descriptions(self, df):
+        """
+        Get descriptions for the fields in the DataFrame
+        
+        Args:
+            df (pandas.DataFrame): The DataFrame containing experiment data
+            
+        Returns:
+            dict: A dictionary mapping field names to their descriptions
+        """
+        descriptions = {}
+        for column in df.columns:
+            if column in self.field_descriptions:
+                descriptions[column] = self.field_descriptions[column]
+            
+        # Also include descriptions for any values in the 'metric' column if it exists
+        if 'metric' in df.columns:
+            for metric in df['metric'].unique():
+                if metric in self.field_descriptions:
+                    descriptions[metric] = self.field_descriptions[metric]
+                    
+        return descriptions
+        
     def validate_csv_content(self, df):
         """
         Validate the content of a CSV file
@@ -91,3 +135,6 @@ class FileHandler:
             raise ValueError("The CSV file must contain at least one numeric column")
             
         return True
+
+
+

@@ -41,9 +41,12 @@ def index():
             data_df = file_handler.read_csv(file_path)
             file_handler.validate_csv_content(data_df)
             
+            # Get field descriptions
+            field_descriptions = file_handler.get_field_descriptions(data_df)
+            
             # Build the prompt
             #print(f"Building prompt with instructions: {instructions}")
-            prompt = prompt_builder.build_prompt(instructions, data_df)
+            prompt = prompt_builder.build_prompt(instructions, data_df, field_descriptions)
             #print(f"Prompt: {prompt}")
             
             # Get response from AWS Bedrock
@@ -90,3 +93,4 @@ if __name__ == '__main__':
         
     # Run the Flask app
     app.run(host='0.0.0.0', port=5000, debug=True)
+

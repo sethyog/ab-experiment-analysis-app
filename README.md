@@ -8,6 +8,7 @@ This project is designed to interpret statistical analysis produced from A/B exp
 - **AWS Bedrock Integration**: The application utilizes AWS Bedrock to access the selected GenAI model for generating summaries based on the uploaded data and user instructions.
 - **Dynamic Prompt Generation**: User instructions are converted into prompts suitable for the GenAI model, ensuring accurate and relevant responses.
 - **Summary Generation**: The application processes the output from the GenAI model to create concise summaries and actionable recommendations.
+- **Field Descriptions**: The application loads descriptions of experiment fields from a CSV file and uses them to provide context for the analysis.
 
 ## Project Structure
 
@@ -25,8 +26,9 @@ ab-experiment-analysis-app
 │   ├── static
 │   │   ├── css
 │   │   │   └── styles.css     # CSS styles for the web interface
-│   │   └── js
-│   │       └── scripts.js      # JavaScript for client-side functionality
+│   │   ├── js
+│   │   │   └── scripts.js      # JavaScript for client-side functionality
+│   │   └── field_descriptions.csv # CSV file containing field descriptions
 │   └── utils
 │       └── file_handler.py     # Utility functions for file handling
 ├── requirements.txt            # Project dependencies
@@ -118,6 +120,23 @@ bounce_rate,0.35,0.32,-0.03,0.06
 
 However, the application can also handle other CSV formats containing statistical data.
 
+## Field Descriptions CSV
+
+The application uses a CSV file to load descriptions of experiment fields. The file is located at `src/static/field_descriptions.csv` and has the following format:
+
+```
+field_name,description
+metric,The name of the metric being measured in the experiment
+control,The value of the metric in the control group (baseline)
+treatment,The value of the metric in the treatment group (variant being tested)
+difference,The absolute difference between the treatment and control values
+p_value,The probability that the observed difference occurred by chance (lower values indicate higher statistical significance)
+conversion_rate,The percentage of users who completed a desired action (e.g., made a purchase)
+...
+```
+
+You can add or modify field descriptions in this file to provide more context for the analysis.
+
 ## Usage Guidelines
 
 1. Upload your statistical analysis CSV file using the provided interface.
@@ -153,3 +172,6 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
+
+
+

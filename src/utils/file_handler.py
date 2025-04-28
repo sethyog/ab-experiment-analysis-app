@@ -33,7 +33,17 @@ class FileHandler:
         try:
             if os.path.exists(self.descriptions_path):
                 df = pd.read_csv(self.descriptions_path)
-                return dict(zip(df['field_name'], df['description']))
+                
+                # Check if the dataframe has at least two columns
+                if len(df.columns) >= 2:
+                    # Use the first column for field names and the second column for descriptions
+                    field_name_col = df.columns[0]
+                    description_col = df.columns[1]
+                    
+                    return dict(zip(df[field_name_col], df[description_col]))
+                else:
+                    print(f"Warning: Field descriptions file must have at least two columns")
+                    return {}
             else:
                 print(f"Warning: Field descriptions file not found at {self.descriptions_path}")
                 return {}
@@ -135,6 +145,8 @@ class FileHandler:
             raise ValueError("The CSV file must contain at least one numeric column")
             
         return True
+
+
 
 
 

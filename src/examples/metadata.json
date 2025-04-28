@@ -1,0 +1,22 @@
+{
+  "examples": [
+    {
+      "id": "example1",
+      "name": "Basic A/B Test Example",
+      "data_file": "example1.csv",
+      "analysis_file": "example1.json",
+      "description": "A simple A/B test with conversion rate, average order value, and bounce rate metrics",
+      "tags": ["conversion", "e-commerce", "basic"],
+      "metrics": ["conversion_rate", "average_order_value", "bounce_rate"]
+    },
+    {
+      "id": "example2",
+      "name": "E-commerce Performance Test",
+      "data_file": "example2.csv",
+      "analysis_file": "example2.json",
+      "description": "An A/B test focused on e-commerce metrics including checkout completion and add-to-cart rates",
+      "tags": ["e-commerce", "checkout", "cart"],
+      "metrics": ["conversion_rate", "average_order_value", "checkout_completion_rate", "add_to_cart_rate"]
+    }
+  ]
+}

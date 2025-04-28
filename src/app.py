@@ -4,6 +4,7 @@ import traceback
 from src.services.aws_bedrock import AWSBedrockService
 from src.services.prompt_builder import PromptBuilder
 from src.services.summary_generator import SummaryGenerator
+from src.services.example_manager import ExampleManager
 from src.utils.file_handler import FileHandler
 
 app = Flask(__name__)
@@ -13,6 +14,7 @@ app.secret_key = os.urandom(24)  # For flash messages
 file_handler = FileHandler(upload_folder='uploads')
 prompt_builder = PromptBuilder()
 summary_generator = SummaryGenerator()
+example_manager = ExampleManager(examples_dir='src/examples')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -28,6 +30,7 @@ def index():
             csv_file = request.files.get('csv_file')
             instructions = request.form.get('instructions', '')
             model_name = request.form.get('model_name')
+            use_examples = request.form.get('use_examples', 'on') == 'on'
             
             # Validate inputs
             if not csv_file:
@@ -38,20 +41,25 @@ def index():
             
             # Process the CSV file
             file_path = file_handler.save_file(csv_file)
+            print(f"File saved to {file_path}")
             data_df = file_handler.read_csv(file_path)
             file_handler.validate_csv_content(data_df)
             
             # Get field descriptions
             field_descriptions = file_handler.get_field_descriptions(data_df)
             
+            # Get examples if enabled
+            examples = []
+            if use_examples:
+                examples = example_manager.select_examples(data_df, max_examples=2)
+                print(f"Selected {len(examples)} examples for few-shot learning")
+            
             # Build the prompt
-            #print(f"Building prompt with instructions: {instructions}")
-            prompt = prompt_builder.build_prompt(instructions, data_df, field_descriptions)
-            #print(f"Prompt: {prompt}")
+            prompt = prompt_builder.build_prompt(instructions, data_df, field_descriptions, examples)
+            print(f"Prompt: {prompt}")
             
             # Get response from AWS Bedrock
             bedrock_service = AWSBedrockService(model_id=model_name)
-            #print(f'Input data: {data_df}')
             model_response = bedrock_service.get_model_response(prompt)
             
             # Generate summary
@@ -93,4 +101,3 @@ if __name__ == '__main__':
         
     # Run the Flask app
     app.run(host='0.0.0.0', port=5000, debug=True)
-

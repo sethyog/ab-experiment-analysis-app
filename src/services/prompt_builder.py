@@ -1,11 +1,12 @@
 import pandas as pd
 import json
+from typing import List, Dict, Any, Optional
 
 class PromptBuilder:
     def __init__(self):
         pass
         
-    def build_prompt(self, instructions, data_df, field_descriptions=None):
+    def build_prompt(self, instructions, data_df, field_descriptions=None, examples=None):
         """
         Build a prompt for the GenAI model based on the statistical data, field descriptions, and user instructions
         
@@ -13,6 +14,7 @@ class PromptBuilder:
             instructions (str): User instructions for interpreting the data
             data_df (pandas.DataFrame): DataFrame containing the A/B experiment statistical data
             field_descriptions (dict, optional): Dictionary mapping field names to their descriptions
+            examples (List[Dict[str, Any]], optional): List of examples to include in the prompt
             
         Returns:
             str: A formatted prompt for the GenAI model
@@ -27,12 +29,20 @@ class PromptBuilder:
             for field, description in field_descriptions.items():
                 descriptions_str += f"- {field}: {description}\n"
         
+        # Format examples if provided
+        examples_str = ""
+        if examples and len(examples) > 0:
+            examples_str = "## EXAMPLES OF GOOD ANALYSES:\n"
+            for example in examples:
+                examples_str += self._format_example(example)
+        
         # Build the prompt with clear instructions for the model
         prompt = f"""
 You are an expert data scientist specializing in A/B testing analysis. 
 Your task is to analyze the following statistical output from an A/B experiment and provide a clear, actionable summary.
 
-## STATISTICAL DATA:
+{examples_str}
+## STATISTICAL DATA TO ANALYZE:
 {data_str}
 
 {descriptions_str}
@@ -64,8 +74,41 @@ Please provide your analysis in the following JSON structure:
 
 Ensure your analysis is data-driven, statistically sound, and provides clear business recommendations.
 Use the field descriptions to provide more context and accurate interpretations of the metrics.
+Learn from the examples provided to structure your analysis in a similar way.
 """
         return prompt
+        
+    def _format_example(self, example: Dict[str, Any]) -> str:
+        """
+        Format an example for inclusion in the prompt
+        
+        Args:
+            example (Dict[str, Any]): Example with data and analysis
+            
+        Returns:
+            str: Formatted example string
+        """
+        metadata = example.get('metadata', {})
+        data_df = example.get('data')
+        analysis = example.get('analysis', {})
+        
+        # Format the data
+        data_str = self._format_dataframe(data_df)
+        
+        # Format the analysis
+        analysis_str = json.dumps(analysis, indent=2)
+        
+        return f"""
+### EXAMPLE: {metadata.get('name', 'A/B Test Example')}
+#### DATA:
+{data_str}
+
+#### ANALYSIS:
+```json
+{analysis_str}
+```
+
+"""
         
     def _format_dataframe(self, df):
         """

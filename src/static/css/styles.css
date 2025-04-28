@@ -105,6 +105,28 @@ small {
     background-color: #2980b9;
 }
 
+/* Checkbox styles */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 0.5rem;
+    width: auto;
+}
+
+.checkbox-group label {
+    display: inline;
+    margin-right: 1rem;
+}
+
+.checkbox-group small {
+    flex-basis: 100%;
+    margin-top: 0.25rem;
+}
+
 /* Results styles */
 .results-container {
     background-color: #fff;

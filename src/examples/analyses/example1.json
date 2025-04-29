@@ -1,27 +1,39 @@
 {
-  "summary": "The A/B test shows statistically significant improvements in both conversion rate and average order value, with a slight (though not statistically significant) decrease in bounce rate. The treatment version outperformed the control across all key metrics, suggesting it provides a better user experience that leads to higher engagement and revenue potential.",
+  "summary": [
+    "The A/B test was conducted on two variants:C and T. The impact on each metric is summarized below."
+    ], 
   "key_metrics": [
     {
+      "metric_name": "OPS",
+      "impact range": "-4.74% to 1.37% (mean -1.68%)",
+      "probability of impact >0": "14%",
+      "annualized impact": "-$112088",
+      "interpretation": "Variant T performs worse with  only 14.3% probability of uplift in sales value."
+    },
+    {
+      "metric_name": "Total Units",
+      "impact range": "-4.75% to 1.36% (mean -1.69%)",
+      "probability of impact >0": "13.87%",
+      "annualized impact": "-4116.7 units",
+      "interpretation": "Variant T performs worse with  only 13.87% probability of uplift in units sold."
+    },
+    {
       "metric_name": "Conversion Rate",
-      "value": "0.15 vs 0.12 (25% increase)",
-      "interpretation": "Statistically significant improvement (p=0.04) indicating the treatment version is more effective at converting users."
+      "impact range": "-4.67% to 1.34% (mean -1.66%)",
+      "probability of impact >0": "13.88%",
+      "annualized impact": "-3927 units",
+      "interpretation": "Conversion rate is the number of customers making at least 1 purchase out of all the customers exposedto the treatment. Variant T performs worse with  only 13.88% probability of uplift in conversion  rate."
     },
     {
-      "metric_name": "Average Order Value",
-      "value": "$48.20 vs $45.50 (5.9% increase)",
-      "interpretation": "Statistically significant improvement (p=0.03) showing users in the treatment group spend more per order."
-    },
-    {
-      "metric_name": "Bounce Rate",
-      "value": "0.32 vs 0.35 (8.6% decrease)",
-      "interpretation": "Positive trend but not statistically significant (p=0.06). Suggests improved user engagement but requires more data for confirmation."
+      "metric_name": "Glance Views",
+      "impact range": "-2.7% to 1.4% (mean -.6%)",
+      "probability of impact >0": "26.3%",
+      "annualized impact": "-9599",
+      "interpretation": "Variant T performs worse with  only 13.87% probability of uplift in units sold."
     }
   ],
-  "statistical_significance": "Two metrics show statistical significance at p<0.05 (conversion rate p=0.04, average order value p=0.03)",
   "recommendations": [
-    "Implement the treatment version as it shows significant improvements in both conversion rate and average order value",
-    "Continue monitoring bounce rate to confirm the positive trend with more data",
-    "Analyze user segments to identify which types of users benefit most from the treatment"
+    "Do  not implement the treatment version as it shows significant degradations in all  the  metrics"
   ],
   "limitations": [
     "Sample size may not be large enough to detect smaller effects",

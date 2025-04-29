@@ -57,11 +57,12 @@ Please provide your analysis in the following JSON structure:
   "key_metrics": [
     {{
       "metric_name": "Name of the metric",
-      "value": "Value of the metric",
+      "impact range": "Confidence interval of impact percentage",
+      "probability of impact >0": "Probability that the treatment is better than control",
+      "annualized impact": "Estimated annualized impact of the metric",
       "interpretation": "What this metric means in context"
     }}
   ],
-  "statistical_significance": "Assessment of statistical significance with confidence level",
   "recommendations": [
     "Clear, actionable recommendation based on the results",
     "Additional recommendations if applicable"

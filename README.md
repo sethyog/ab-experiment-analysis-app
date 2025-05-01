@@ -101,7 +101,7 @@ To run this application on an EC2 instance:
 4. Start the application with Gunicorn (included in requirements.txt):
    ```
    cd ab-experiment-analysis-app
-   gunicorn -w 4 -b 0.0.0.0:5000 src.app:app
+   gunicorn -w 4 -b 0.0.0.0:5000 --timeout 120 src.app:app
    
    ```
 
